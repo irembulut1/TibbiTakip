@@ -1,0 +1,98 @@
+﻿@using TibbiTakip.Models
+@model List<HastalikBilgisi>
+@using TibbiTakip.Controllers
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container">
+    @using (Html.BeginForm())
+    {
+        <div style="width:25%;float:right">
+            @Html.TextBox("ara", null, new { @class = "form-control", @placeholder = "TC ya da Hastalık Adı ile arama yapınız" })
+            <div style="float:right">
+                <input type="submit" name="btn" value="Ara" class="btn btn-info" />
+            </div>
+            <br />
+        </div>
+    }
+</div>
+
+
+@if (User.IsInRole("1"))
+{
+    <a href="/Hastalik/Ekle" class="btn btn-primary">Hastalık Bilgisi Ekle</a>
+    <br />
+}
+<br />
+@{
+    TakipSistemiEntities5 db = new TakipSistemiEntities5();
+}
+@*<table class="table table-sm">*@
+<table class="table table-bordered table-stripe"  style="background-color: #d4d2d2;">
+
+    <tr class="table-primary"  style="background-color: #4194d0";>
+        @if (User.IsInRole("1"))
+        {
+            <th>Hasta TC</th>
+            <th>Hasta İsim Soyisim</th>
+        }
+        <th>Hastalik Adı</th>
+        <th>Teşhis Tarihi</th>
+        <th>Tedavi</th>
+        @if (User.IsInRole("1"))
+        {
+            <th>Sil</th>
+            <th>Düzenle</th>
+        }
+
+
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            @if (User.IsInRole("1"))
+            {
+                foreach (var k in db.Kullanicilar)
+                {
+
+                    if (item.TCKimlikNo == k.TCKimlikNo)
+                    {
+                        <td>@item.Kullanicilar.TCKimlikNo</td>
+                        <td>@item.Kullanicilar.Ad @item.Kullanicilar.Soyad</td>
+                    }
+                }
+                <td>@item.HastalikAdi</td>
+                <td>@item.TeşhisTarihi </td>
+                <td>@item.Tedavi </td>
+                <td>@Html.ActionLink("Sil", "Sil", new { id = item.HastalikID }, new { @class = "btn btn-danger", onclick = "return confirm(`silmek istiyor musun?`)" })</td>
+                <td> <a href="/Hastalik/Guncelle/@item.HastalikID" class="btn btn-warning">Düzenle</a> </td>
+            }
+
+        </tr>
+    }
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            @if (User.IsInRole("0"))
+            {
+
+                if (item.Kullanicilar.TCKimlikNo.ToString() == Session["TCKimlikNo"].ToString())
+                {
+
+                    @*<td>@item.Kullanicilar.TCKimlikNo</td>
+                        <td>@item.Kullanicilar.Ad @item.Kullanicilar.Soyad</td>*@
+                    <td>@item.HastalikAdi</td>
+                    <td>@item.TeşhisTarihi </td>
+                    <td>@item.Tedavi </td>
+                }
+            }
+        </tr>
+    }
+</table>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@2.10.2/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>

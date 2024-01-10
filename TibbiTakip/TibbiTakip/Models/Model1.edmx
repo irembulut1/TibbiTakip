@@ -1,0 +1,376 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="TakipSistemiModel1.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Doktor">
+          <Key>
+            <PropertyRef Name="DoktorID" />
+          </Key>
+          <Property Name="DoktorID" Type="int" Nullable="false" />
+          <Property Name="Departman" Type="varchar" MaxLength="255" />
+          <Property Name="TCKimlikNo" Type="nvarchar" MaxLength="11" />
+        </EntityType>
+        <EntityType Name="HastalikBilgisi">
+          <Key>
+            <PropertyRef Name="HastalikID" />
+          </Key>
+          <Property Name="HastalikID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="HastalikAdi" Type="nvarchar" MaxLength="255" />
+          <Property Name="TeşhisTarihi" Type="date" />
+          <Property Name="Tedavi" Type="nvarchar" MaxLength="1000" />
+          <Property Name="TCKimlikNo" Type="nvarchar" MaxLength="11" />
+        </EntityType>
+        <EntityType Name="IlacBilgisi">
+          <Key>
+            <PropertyRef Name="IlacID" />
+          </Key>
+          <Property Name="IlacID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IlacAdi" Type="nvarchar" MaxLength="255" />
+          <Property Name="Dozaj" Type="nvarchar" MaxLength="50" />
+          <Property Name="Frekans" Type="nvarchar" MaxLength="50" />
+          <Property Name="TCKimlikNo" Type="nvarchar" MaxLength="11" />
+        </EntityType>
+        <EntityType Name="Kullanicilar">
+          <Key>
+            <PropertyRef Name="TCKimlikNo" />
+          </Key>
+          <Property Name="Ad" Type="nvarchar" MaxLength="255" />
+          <Property Name="Soyad" Type="nvarchar" MaxLength="255" />
+          <Property Name="Sifre" Type="nvarchar" MaxLength="255" />
+          <Property Name="Eposta" Type="nvarchar" MaxLength="255" />
+          <Property Name="Rol" Type="int" />
+          <Property Name="TCKimlikNo" Type="nvarchar" MaxLength="11" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="TahlilBilgisi">
+          <Key>
+            <PropertyRef Name="TahlilID" />
+          </Key>
+          <Property Name="TahlilID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TahlilAdi" Type="nvarchar" MaxLength="255" />
+          <Property Name="TahlilTarihi" Type="date" />
+          <Property Name="Sonuc" Type="nvarchar" MaxLength="255" />
+          <Property Name="TCKimlikNo" Type="nvarchar" MaxLength="11" />
+        </EntityType>
+        <Association Name="FK_Doktor_Kullanicilar">
+          <End Role="Kullanicilar" Type="Self.Kullanicilar" Multiplicity="0..1" />
+          <End Role="Doktor" Type="Self.Doktor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kullanicilar">
+              <PropertyRef Name="TCKimlikNo" />
+            </Principal>
+            <Dependent Role="Doktor">
+              <PropertyRef Name="TCKimlikNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HastalikBilgisi_Kullanicilar">
+          <End Role="Kullanicilar" Type="Self.Kullanicilar" Multiplicity="0..1" />
+          <End Role="HastalikBilgisi" Type="Self.HastalikBilgisi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kullanicilar">
+              <PropertyRef Name="TCKimlikNo" />
+            </Principal>
+            <Dependent Role="HastalikBilgisi">
+              <PropertyRef Name="TCKimlikNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IlacBilgisi_Kullanicilar">
+          <End Role="Kullanicilar" Type="Self.Kullanicilar" Multiplicity="0..1" />
+          <End Role="IlacBilgisi" Type="Self.IlacBilgisi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kullanicilar">
+              <PropertyRef Name="TCKimlikNo" />
+            </Principal>
+            <Dependent Role="IlacBilgisi">
+              <PropertyRef Name="TCKimlikNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TahlilBilgisi_Kullanicilar">
+          <End Role="Kullanicilar" Type="Self.Kullanicilar" Multiplicity="0..1" />
+          <End Role="TahlilBilgisi" Type="Self.TahlilBilgisi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kullanicilar">
+              <PropertyRef Name="TCKimlikNo" />
+            </Principal>
+            <Dependent Role="TahlilBilgisi">
+              <PropertyRef Name="TCKimlikNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TakipSistemiModel1StoreContainer">
+          <EntitySet Name="Doktor" EntityType="Self.Doktor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HastalikBilgisi" EntityType="Self.HastalikBilgisi" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="IlacBilgisi" EntityType="Self.IlacBilgisi" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Kullanicilar" EntityType="Self.Kullanicilar" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TahlilBilgisi" EntityType="Self.TahlilBilgisi" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Doktor_Kullanicilar" Association="Self.FK_Doktor_Kullanicilar">
+            <End Role="Kullanicilar" EntitySet="Kullanicilar" />
+            <End Role="Doktor" EntitySet="Doktor" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HastalikBilgisi_Kullanicilar" Association="Self.FK_HastalikBilgisi_Kullanicilar">
+            <End Role="Kullanicilar" EntitySet="Kullanicilar" />
+            <End Role="HastalikBilgisi" EntitySet="HastalikBilgisi" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IlacBilgisi_Kullanicilar" Association="Self.FK_IlacBilgisi_Kullanicilar">
+            <End Role="Kullanicilar" EntitySet="Kullanicilar" />
+            <End Role="IlacBilgisi" EntitySet="IlacBilgisi" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TahlilBilgisi_Kullanicilar" Association="Self.FK_TahlilBilgisi_Kullanicilar">
+            <End Role="Kullanicilar" EntitySet="Kullanicilar" />
+            <End Role="TahlilBilgisi" EntitySet="TahlilBilgisi" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TakipSistemiModel1" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="TakipSistemiEntities5" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Doktor" EntityType="TakipSistemiModel1.Doktor" />
+          <EntitySet Name="HastalikBilgisi" EntityType="TakipSistemiModel1.HastalikBilgisi" />
+          <EntitySet Name="IlacBilgisi" EntityType="TakipSistemiModel1.IlacBilgisi" />
+          <EntitySet Name="Kullanicilar" EntityType="TakipSistemiModel1.Kullanicilar" />
+          <EntitySet Name="sysdiagrams" EntityType="TakipSistemiModel1.sysdiagrams" />
+          <EntitySet Name="TahlilBilgisi" EntityType="TakipSistemiModel1.TahlilBilgisi" />
+          <AssociationSet Name="FK_Doktor_Kullanicilar" Association="TakipSistemiModel1.FK_Doktor_Kullanicilar">
+            <End Role="Kullanicilar" EntitySet="Kullanicilar" />
+            <End Role="Doktor" EntitySet="Doktor" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HastalikBilgisi_Kullanicilar" Association="TakipSistemiModel1.FK_HastalikBilgisi_Kullanicilar">
+            <End Role="Kullanicilar" EntitySet="Kullanicilar" />
+            <End Role="HastalikBilgisi" EntitySet="HastalikBilgisi" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IlacBilgisi_Kullanicilar" Association="TakipSistemiModel1.FK_IlacBilgisi_Kullanicilar">
+            <End Role="Kullanicilar" EntitySet="Kullanicilar" />
+            <End Role="IlacBilgisi" EntitySet="IlacBilgisi" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TahlilBilgisi_Kullanicilar" Association="TakipSistemiModel1.FK_TahlilBilgisi_Kullanicilar">
+            <End Role="Kullanicilar" EntitySet="Kullanicilar" />
+            <End Role="TahlilBilgisi" EntitySet="TahlilBilgisi" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Doktor">
+          <Key>
+            <PropertyRef Name="DoktorID" />
+          </Key>
+          <Property Name="DoktorID" Type="Int32" Nullable="false" />
+          <Property Name="Departman" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="TCKimlikNo" Type="String" MaxLength="11" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Kullanicilar" Relationship="TakipSistemiModel1.FK_Doktor_Kullanicilar" FromRole="Doktor" ToRole="Kullanicilar" />
+        </EntityType>
+        <EntityType Name="HastalikBilgisi">
+          <Key>
+            <PropertyRef Name="HastalikID" />
+          </Key>
+          <Property Name="HastalikID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="HastalikAdi" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="TeşhisTarihi" Type="DateTime" Precision="0" />
+          <Property Name="Tedavi" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="TCKimlikNo" Type="String" MaxLength="11" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Kullanicilar" Relationship="TakipSistemiModel1.FK_HastalikBilgisi_Kullanicilar" FromRole="HastalikBilgisi" ToRole="Kullanicilar" />
+        </EntityType>
+        <EntityType Name="IlacBilgisi">
+          <Key>
+            <PropertyRef Name="IlacID" />
+          </Key>
+          <Property Name="IlacID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IlacAdi" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Dozaj" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Frekans" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TCKimlikNo" Type="String" MaxLength="11" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Kullanicilar" Relationship="TakipSistemiModel1.FK_IlacBilgisi_Kullanicilar" FromRole="IlacBilgisi" ToRole="Kullanicilar" />
+        </EntityType>
+        <EntityType Name="Kullanicilar">
+          <Key>
+            <PropertyRef Name="TCKimlikNo" />
+          </Key>
+          <Property Name="Ad" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Soyad" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Sifre" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Eposta" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Rol" Type="Int32" />
+          <Property Name="TCKimlikNo" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Doktor" Relationship="TakipSistemiModel1.FK_Doktor_Kullanicilar" FromRole="Kullanicilar" ToRole="Doktor" />
+          <NavigationProperty Name="HastalikBilgisi" Relationship="TakipSistemiModel1.FK_HastalikBilgisi_Kullanicilar" FromRole="Kullanicilar" ToRole="HastalikBilgisi" />
+          <NavigationProperty Name="IlacBilgisi" Relationship="TakipSistemiModel1.FK_IlacBilgisi_Kullanicilar" FromRole="Kullanicilar" ToRole="IlacBilgisi" />
+          <NavigationProperty Name="TahlilBilgisi" Relationship="TakipSistemiModel1.FK_TahlilBilgisi_Kullanicilar" FromRole="Kullanicilar" ToRole="TahlilBilgisi" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="TahlilBilgisi">
+          <Key>
+            <PropertyRef Name="TahlilID" />
+          </Key>
+          <Property Name="TahlilID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TahlilAdi" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="TahlilTarihi" Type="DateTime" Precision="0" />
+          <Property Name="Sonuc" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="TCKimlikNo" Type="String" MaxLength="11" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Kullanicilar" Relationship="TakipSistemiModel1.FK_TahlilBilgisi_Kullanicilar" FromRole="TahlilBilgisi" ToRole="Kullanicilar" />
+        </EntityType>
+        <Association Name="FK_Doktor_Kullanicilar">
+          <End Type="TakipSistemiModel1.Kullanicilar" Role="Kullanicilar" Multiplicity="0..1" />
+          <End Type="TakipSistemiModel1.Doktor" Role="Doktor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kullanicilar">
+              <PropertyRef Name="TCKimlikNo" />
+            </Principal>
+            <Dependent Role="Doktor">
+              <PropertyRef Name="TCKimlikNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HastalikBilgisi_Kullanicilar">
+          <End Type="TakipSistemiModel1.Kullanicilar" Role="Kullanicilar" Multiplicity="0..1" />
+          <End Type="TakipSistemiModel1.HastalikBilgisi" Role="HastalikBilgisi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kullanicilar">
+              <PropertyRef Name="TCKimlikNo" />
+            </Principal>
+            <Dependent Role="HastalikBilgisi">
+              <PropertyRef Name="TCKimlikNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IlacBilgisi_Kullanicilar">
+          <End Type="TakipSistemiModel1.Kullanicilar" Role="Kullanicilar" Multiplicity="0..1" />
+          <End Type="TakipSistemiModel1.IlacBilgisi" Role="IlacBilgisi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kullanicilar">
+              <PropertyRef Name="TCKimlikNo" />
+            </Principal>
+            <Dependent Role="IlacBilgisi">
+              <PropertyRef Name="TCKimlikNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TahlilBilgisi_Kullanicilar">
+          <End Type="TakipSistemiModel1.Kullanicilar" Role="Kullanicilar" Multiplicity="0..1" />
+          <End Type="TakipSistemiModel1.TahlilBilgisi" Role="TahlilBilgisi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kullanicilar">
+              <PropertyRef Name="TCKimlikNo" />
+            </Principal>
+            <Dependent Role="TahlilBilgisi">
+              <PropertyRef Name="TCKimlikNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TakipSistemiModel1StoreContainer" CdmEntityContainer="TakipSistemiEntities5">
+          <EntitySetMapping Name="Doktor">
+            <EntityTypeMapping TypeName="TakipSistemiModel1.Doktor">
+              <MappingFragment StoreEntitySet="Doktor">
+                <ScalarProperty Name="TCKimlikNo" ColumnName="TCKimlikNo" />
+                <ScalarProperty Name="Departman" ColumnName="Departman" />
+                <ScalarProperty Name="DoktorID" ColumnName="DoktorID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HastalikBilgisi">
+            <EntityTypeMapping TypeName="TakipSistemiModel1.HastalikBilgisi">
+              <MappingFragment StoreEntitySet="HastalikBilgisi">
+                <ScalarProperty Name="TCKimlikNo" ColumnName="TCKimlikNo" />
+                <ScalarProperty Name="Tedavi" ColumnName="Tedavi" />
+                <ScalarProperty Name="TeşhisTarihi" ColumnName="TeşhisTarihi" />
+                <ScalarProperty Name="HastalikAdi" ColumnName="HastalikAdi" />
+                <ScalarProperty Name="HastalikID" ColumnName="HastalikID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IlacBilgisi">
+            <EntityTypeMapping TypeName="TakipSistemiModel1.IlacBilgisi">
+              <MappingFragment StoreEntitySet="IlacBilgisi">
+                <ScalarProperty Name="TCKimlikNo" ColumnName="TCKimlikNo" />
+                <ScalarProperty Name="Frekans" ColumnName="Frekans" />
+                <ScalarProperty Name="Dozaj" ColumnName="Dozaj" />
+                <ScalarProperty Name="IlacAdi" ColumnName="IlacAdi" />
+                <ScalarProperty Name="IlacID" ColumnName="IlacID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Kullanicilar">
+            <EntityTypeMapping TypeName="TakipSistemiModel1.Kullanicilar">
+              <MappingFragment StoreEntitySet="Kullanicilar">
+                <ScalarProperty Name="TCKimlikNo" ColumnName="TCKimlikNo" />
+                <ScalarProperty Name="Rol" ColumnName="Rol" />
+                <ScalarProperty Name="Eposta" ColumnName="Eposta" />
+                <ScalarProperty Name="Sifre" ColumnName="Sifre" />
+                <ScalarProperty Name="Soyad" ColumnName="Soyad" />
+                <ScalarProperty Name="Ad" ColumnName="Ad" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="TakipSistemiModel1.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TahlilBilgisi">
+            <EntityTypeMapping TypeName="TakipSistemiModel1.TahlilBilgisi">
+              <MappingFragment StoreEntitySet="TahlilBilgisi">
+                <ScalarProperty Name="TCKimlikNo" ColumnName="TCKimlikNo" />
+                <ScalarProperty Name="Sonuc" ColumnName="Sonuc" />
+                <ScalarProperty Name="TahlilTarihi" ColumnName="TahlilTarihi" />
+                <ScalarProperty Name="TahlilAdi" ColumnName="TahlilAdi" />
+                <ScalarProperty Name="TahlilID" ColumnName="TahlilID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

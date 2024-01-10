@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TakipSistemiModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Doktor">
+    <Key>
+      <PropertyRef Name="DoktorID" />
+    </Key>
+    <Property Name="DoktorID" Type="Int32" Nullable="false" />
+    <Property Name="KullaniciID" Type="Int32" />
+    <Property Name="Departman" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Kullanicilar" Relationship="Self.FK_Doktor_Kullanicilar" FromRole="Doktor" ToRole="Kullanicilar" />
+  </EntityType>
+  <EntityType Name="HastalikBilgisi">
+    <Key>
+      <PropertyRef Name="HastalikID" />
+    </Key>
+    <Property Name="HastalikID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="KullaniciID" Type="Int32" />
+    <Property Name="HastalikAdi" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="TeşhisTarihi" Type="DateTime" Precision="0" />
+    <Property Name="Tedavi" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Kullanicilar" Relationship="Self.FK__HastalikB__Kulla__3B75D760" FromRole="HastalikBilgisi" ToRole="Kullanicilar" />
+  </EntityType>
+  <EntityType Name="IlacBilgisi">
+    <Key>
+      <PropertyRef Name="IlacID" />
+    </Key>
+    <Property Name="IlacID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="KullaniciID" Type="Int32" />
+    <Property Name="IlacAdi" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="Dozaj" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Frekans" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Kullanicilar" Relationship="Self.FK__IlacBilgi__Kulla__3E52440B" FromRole="IlacBilgisi" ToRole="Kullanicilar" />
+  </EntityType>
+  <EntityType Name="Kullanicilar">
+    <Key>
+      <PropertyRef Name="KullaniciID" />
+    </Key>
+    <Property Name="KullaniciID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Ad" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="Soyad" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="TCKimlikNo" Type="String" MaxLength="11" FixedLength="false" Unicode="true" />
+    <Property Name="Sifre" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="Eposta" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="Rol" Type="Int32" />
+    <NavigationProperty Name="Doktor" Relationship="Self.FK_Doktor_Kullanicilar" FromRole="Kullanicilar" ToRole="Doktor" />
+    <NavigationProperty Name="HastalikBilgisi" Relationship="Self.FK__HastalikB__Kulla__3B75D760" FromRole="Kullanicilar" ToRole="HastalikBilgisi" />
+    <NavigationProperty Name="IlacBilgisi" Relationship="Self.FK__IlacBilgi__Kulla__3E52440B" FromRole="Kullanicilar" ToRole="IlacBilgisi" />
+    <NavigationProperty Name="TahlilBilgisi" Relationship="Self.FK__TahlilBil__Kulla__412EB0B6" FromRole="Kullanicilar" ToRole="TahlilBilgisi" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="TahlilBilgisi">
+    <Key>
+      <PropertyRef Name="TahlilID" />
+    </Key>
+    <Property Name="TahlilID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="KullaniciID" Type="Int32" />
+    <Property Name="TahlilAdi" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="TahlilTarihi" Type="DateTime" Precision="0" />
+    <Property Name="Sonuc" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Kullanicilar" Relationship="Self.FK__TahlilBil__Kulla__412EB0B6" FromRole="TahlilBilgisi" ToRole="Kullanicilar" />
+  </EntityType>
+  <Association Name="FK_Doktor_Kullanicilar">
+    <End Role="Kullanicilar" Type="Self.Kullanicilar" Multiplicity="0..1" />
+    <End Role="Doktor" Type="Self.Doktor" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Kullanicilar">
+        <PropertyRef Name="KullaniciID" />
+      </Principal>
+      <Dependent Role="Doktor">
+        <PropertyRef Name="KullaniciID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__HastalikB__Kulla__3B75D760">
+    <End Role="Kullanicilar" Type="Self.Kullanicilar" Multiplicity="0..1" />
+    <End Role="HastalikBilgisi" Type="Self.HastalikBilgisi" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Kullanicilar">
+        <PropertyRef Name="KullaniciID" />
+      </Principal>
+      <Dependent Role="HastalikBilgisi">
+        <PropertyRef Name="KullaniciID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__IlacBilgi__Kulla__3E52440B">
+    <End Role="Kullanicilar" Type="Self.Kullanicilar" Multiplicity="0..1" />
+    <End Role="IlacBilgisi" Type="Self.IlacBilgisi" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Kullanicilar">
+        <PropertyRef Name="KullaniciID" />
+      </Principal>
+      <Dependent Role="IlacBilgisi">
+        <PropertyRef Name="KullaniciID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__TahlilBil__Kulla__412EB0B6">
+    <End Role="Kullanicilar" Type="Self.Kullanicilar" Multiplicity="0..1" />
+    <End Role="TahlilBilgisi" Type="Self.TahlilBilgisi" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Kullanicilar">
+        <PropertyRef Name="KullaniciID" />
+      </Principal>
+      <Dependent Role="TahlilBilgisi">
+        <PropertyRef Name="KullaniciID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="TakipSistemiEntities2" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Doktor" EntityType="Self.Doktor" />
+    <EntitySet Name="HastalikBilgisi" EntityType="Self.HastalikBilgisi" />
+    <EntitySet Name="IlacBilgisi" EntityType="Self.IlacBilgisi" />
+    <EntitySet Name="Kullanicilar" EntityType="Self.Kullanicilar" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+    <EntitySet Name="TahlilBilgisi" EntityType="Self.TahlilBilgisi" />
+    <AssociationSet Name="FK_Doktor_Kullanicilar" Association="Self.FK_Doktor_Kullanicilar">
+      <End Role="Kullanicilar" EntitySet="Kullanicilar" />
+      <End Role="Doktor" EntitySet="Doktor" />
+    </AssociationSet>
+    <AssociationSet Name="FK__HastalikB__Kulla__3B75D760" Association="Self.FK__HastalikB__Kulla__3B75D760">
+      <End Role="Kullanicilar" EntitySet="Kullanicilar" />
+      <End Role="HastalikBilgisi" EntitySet="HastalikBilgisi" />
+    </AssociationSet>
+    <AssociationSet Name="FK__IlacBilgi__Kulla__3E52440B" Association="Self.FK__IlacBilgi__Kulla__3E52440B">
+      <End Role="Kullanicilar" EntitySet="Kullanicilar" />
+      <End Role="IlacBilgisi" EntitySet="IlacBilgisi" />
+    </AssociationSet>
+    <AssociationSet Name="FK__TahlilBil__Kulla__412EB0B6" Association="Self.FK__TahlilBil__Kulla__412EB0B6">
+      <End Role="Kullanicilar" EntitySet="Kullanicilar" />
+      <End Role="TahlilBilgisi" EntitySet="TahlilBilgisi" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

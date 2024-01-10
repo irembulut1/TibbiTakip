@@ -1,0 +1,135 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TakipSistemiModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Doktor">
+    <Key>
+      <PropertyRef Name="DoktorID" />
+    </Key>
+    <Property Name="DoktorID" Type="int" Nullable="false" />
+    <Property Name="KullaniciID" Type="int" />
+    <Property Name="Departman" Type="varchar" MaxLength="255" />
+  </EntityType>
+  <EntityType Name="HastalikBilgisi">
+    <Key>
+      <PropertyRef Name="HastalikID" />
+    </Key>
+    <Property Name="HastalikID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="KullaniciID" Type="int" />
+    <Property Name="HastalikAdi" Type="nvarchar" MaxLength="255" />
+    <Property Name="TeşhisTarihi" Type="date" />
+    <Property Name="Tedavi" Type="nvarchar" MaxLength="1000" />
+  </EntityType>
+  <EntityType Name="IlacBilgisi">
+    <Key>
+      <PropertyRef Name="IlacID" />
+    </Key>
+    <Property Name="IlacID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="KullaniciID" Type="int" />
+    <Property Name="IlacAdi" Type="nvarchar" MaxLength="255" />
+    <Property Name="Dozaj" Type="nvarchar" MaxLength="50" />
+    <Property Name="Frekans" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Kullanicilar">
+    <Key>
+      <PropertyRef Name="KullaniciID" />
+    </Key>
+    <Property Name="KullaniciID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Ad" Type="nvarchar" MaxLength="255" />
+    <Property Name="Soyad" Type="nvarchar" MaxLength="255" />
+    <Property Name="TCKimlikNo" Type="nvarchar" MaxLength="11" />
+    <Property Name="Sifre" Type="nvarchar" MaxLength="255" />
+    <Property Name="Eposta" Type="nvarchar" MaxLength="255" />
+    <Property Name="Rol" Type="int" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="TahlilBilgisi">
+    <Key>
+      <PropertyRef Name="TahlilID" />
+    </Key>
+    <Property Name="TahlilID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="KullaniciID" Type="int" />
+    <Property Name="TahlilAdi" Type="nvarchar" MaxLength="255" />
+    <Property Name="TahlilTarihi" Type="date" />
+    <Property Name="Sonuc" Type="nvarchar" MaxLength="255" />
+  </EntityType>
+  <Association Name="FK__HastalikB__Kulla__3B75D760">
+    <End Role="Kullanicilar" Type="Self.Kullanicilar" Multiplicity="0..1" />
+    <End Role="HastalikBilgisi" Type="Self.HastalikBilgisi" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Kullanicilar">
+        <PropertyRef Name="KullaniciID" />
+      </Principal>
+      <Dependent Role="HastalikBilgisi">
+        <PropertyRef Name="KullaniciID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__IlacBilgi__Kulla__3E52440B">
+    <End Role="Kullanicilar" Type="Self.Kullanicilar" Multiplicity="0..1" />
+    <End Role="IlacBilgisi" Type="Self.IlacBilgisi" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Kullanicilar">
+        <PropertyRef Name="KullaniciID" />
+      </Principal>
+      <Dependent Role="IlacBilgisi">
+        <PropertyRef Name="KullaniciID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__TahlilBil__Kulla__412EB0B6">
+    <End Role="Kullanicilar" Type="Self.Kullanicilar" Multiplicity="0..1" />
+    <End Role="TahlilBilgisi" Type="Self.TahlilBilgisi" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Kullanicilar">
+        <PropertyRef Name="KullaniciID" />
+      </Principal>
+      <Dependent Role="TahlilBilgisi">
+        <PropertyRef Name="KullaniciID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Doktor_Kullanicilar">
+    <End Role="Kullanicilar" Type="Self.Kullanicilar" Multiplicity="0..1" />
+    <End Role="Doktor" Type="Self.Doktor" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Kullanicilar">
+        <PropertyRef Name="KullaniciID" />
+      </Principal>
+      <Dependent Role="Doktor">
+        <PropertyRef Name="KullaniciID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="TakipSistemiModelStoreContainer">
+    <EntitySet Name="Doktor" EntityType="Self.Doktor" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="HastalikBilgisi" EntityType="Self.HastalikBilgisi" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="IlacBilgisi" EntityType="Self.IlacBilgisi" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Kullanicilar" EntityType="Self.Kullanicilar" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TahlilBilgisi" EntityType="Self.TahlilBilgisi" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__HastalikB__Kulla__3B75D760" Association="Self.FK__HastalikB__Kulla__3B75D760">
+      <End Role="Kullanicilar" EntitySet="Kullanicilar" />
+      <End Role="HastalikBilgisi" EntitySet="HastalikBilgisi" />
+    </AssociationSet>
+    <AssociationSet Name="FK__IlacBilgi__Kulla__3E52440B" Association="Self.FK__IlacBilgi__Kulla__3E52440B">
+      <End Role="Kullanicilar" EntitySet="Kullanicilar" />
+      <End Role="IlacBilgisi" EntitySet="IlacBilgisi" />
+    </AssociationSet>
+    <AssociationSet Name="FK__TahlilBil__Kulla__412EB0B6" Association="Self.FK__TahlilBil__Kulla__412EB0B6">
+      <End Role="Kullanicilar" EntitySet="Kullanicilar" />
+      <End Role="TahlilBilgisi" EntitySet="TahlilBilgisi" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Doktor_Kullanicilar" Association="Self.FK_Doktor_Kullanicilar">
+      <End Role="Kullanicilar" EntitySet="Kullanicilar" />
+      <End Role="Doktor" EntitySet="Doktor" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

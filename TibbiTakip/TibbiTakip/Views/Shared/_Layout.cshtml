@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+
+</head>
+<body>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/Home/Index">E-SAĞLIK</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="/KisiBilgisi/Index"> Kullanıcı Bilgileri</a></li>
+                @if (User.IsInRole("0"))
+                {
+                    <li><a href="/Hastalik/Index">Hastalık Bilgisi</a></li>
+                    <li><a href="/Tahlil/Index">Tahlil Bilgisi</a></li>
+                    <li><a href="/Ilac/Index">Düzenli Kullandığı İlaç Bilgisi</a></li>
+
+                }
+                @if (User.IsInRole("1"))
+                {
+                    <li><a href="/Hastalik/Index">Hastalik Bilgisi Gir</a></li>
+                    <li><a href="/Ilac/Index">İlaç Bilgisi Gir</a></li>
+                }
+                @if (User.IsInRole("2"))
+                {
+
+                    <li><a href="/Tahlil/Index">Tahlil Bilgisi Gir</a></li>
+                }
+
+                <li><a href="/Account/LogOut">Çıkış Yap</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        @*<h3>Navbar Forms</h3>
+            <p>Use the .navbar-form class to vertically align form elements (same padding as links) inside the navbar.</p>*@
+    </div>
+    <img src="~/resim2.jpg"  alt="" width="100" height="100" style="float:left">
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            @*<p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>*@
+        </footer>
+    </div>
+
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+
+</body>
+</html>

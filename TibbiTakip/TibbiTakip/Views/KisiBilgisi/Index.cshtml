@@ -1,0 +1,51 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kullanıcı Bilgileri</title>
+</head>
+<body class="bg-light">
+    <div class="container mt-5">
+        <br />
+        @if (@Session["Rol"].ToString() == "0")
+        {
+            <div class="alert alert-success" role="alert">
+                <strong>KULLANICI TİPİ:</strong> HASTA
+            </div>
+        }
+        @if (@Session["Rol"].ToString() == "1")
+        {
+            <div class="alert alert-success" role="alert">
+                <strong>KULLANICI TİPİ:</strong> DOKTOR
+            </div>
+        }
+        @if (@Session["Rol"].ToString() == "2")
+        {
+            <div class="alert alert-success" role="alert">
+                <strong>KULLANICI TİPİ:</strong> LABORANT
+            </div>
+        }
+        <div class="alert alert-danger" role="alert">
+            <strong>KULLANICI TC:</strong> @Session["TCKimlikNo"]
+        </div>
+        <div class="alert alert-info" role="alert">
+            <strong>KULLANICI ADI:</strong> @Session["Ad"]
+        </div>
+        <div class="alert alert-warning" role="alert">
+            <strong>KULLANICI SOYADI:</strong> @Session["Soyad"]
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and Popper.js scripts (required for Bootstrap components) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+

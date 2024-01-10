@@ -1,0 +1,35 @@
+﻿@model TibbiTakip.Models.HastalikBilgisi
+@{
+    ViewBag.Title = "Ekle";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("Ekle","Hastalik",FormMethod.Post,new { enctype="multipart/Form-data"}))
+ {
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>TC Kimlik</label>
+                    <input type="text" name="TCKimlikNo" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label>Hastalik Adi</label>
+                    <input type="text" name="HastalikAdi" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label>Teshis Tarihi</label>
+                    <input type="date" name="TeşhisTarihi" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label>Tedavi</label>
+                    <input type="text" name="Tedavi" class="form-control" />
+                </div>
+                <button type="submit" class="btn btn-primary">Ekle</button>
+                <td><a href="/Hastalik/Index"> Hastalık Listesi </a></td>
+            </div>
+        </div>
+    </div>
+
+ }
+

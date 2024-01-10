@@ -1,0 +1,35 @@
+﻿
+@{
+    ViewBag.Title = "Ekle";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("Ekle","Tahlil",FormMethod.Post,new { enctype="multipart/Form-data"}))
+ {
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>TC Kimlik NO</label>
+                <input type="text" name="TCKimlikNo" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label>Tahlil Adi</label>
+                <input type="text" name="TahlilAdi" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label>Tahlil Tarihi</label>
+                <input type="date" name="TahlilTarihi" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label>Sonuç</label>
+                <input type="text" name="Sonuc" class="form-control" />
+            </div>
+            <button type="submit" class="btn btn-primary">Ekle</button>
+            <td><a href="/Tahlil/Index"> Tahlil Listesi </a></td>
+        </div>
+    </div>
+</div>
+
+ }
+

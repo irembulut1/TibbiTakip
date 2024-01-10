@@ -1,0 +1,41 @@
+﻿@model TibbiTakip.Models.TahlilBilgisi
+@{
+    ViewBag.Title = "Guncelle";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br />
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <form method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label>İşlem ID`si</label>
+                    <input type="text" name="TahlilID" class="form-control" value="@Model.TahlilID" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label>Hastanın TC`si</label>
+                    <input type="text" name="TCKimlikNo" class="form-control" value="@Model.TCKimlikNo" />
+                </div>
+                <div class="form-group">
+                    <label>Tahlil Adı</label>
+                    <input type="text" name="TahlilAdi" class="form-control" value="@Model.TahlilAdi" />
+                </div>
+                <div class="form-group">
+                    <label>Tahlil Tarihi</label>
+                    <input type="date" name="TahlilTarihi" class="form-control" value="@Model.TahlilTarihi" />
+                </div>
+                <div class="form-group">
+                    <label>Sonuc</label>
+                    <input type="text" name="Sonuc" class="form-control" value="@Model.Sonuc" />
+                </div>
+                <button type="submit" class="btn btn-primary">Güncelle</button>
+                @*<a href="/Hastalik/Index"> Hastalıklar</a>*@
+            </form>
+        </div>
+
+    </div>
+
+</div>
+
